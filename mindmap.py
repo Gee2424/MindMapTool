@@ -28,8 +28,12 @@ class MindMap:
     def __init__(self, master):
         self.master = master
         self.master.title("Mind Map Maker")
+
+        self.title_label = Label(self.master, text="Mind Map Maker", font=("Arial", 24))
+        self.title_label.pack(side=TOP, pady=10)
+
         self.canvas = Canvas(self.master, width=800, height=600, bg='white')
-        self.canvas.pack()
+        self.canvas.pack(expand=YES, fill=BOTH)
 
         self.node_color = "blue"
         self.edge_color = "black"
@@ -42,13 +46,13 @@ class MindMap:
         self.canvas.bind("<B>", self.save_image)
 
         # UI improvements
-        self.title_label = Label(self.master, text="Mind Map Maker", font=("Arial", 24))
-        self.title_label.pack(side=TOP)
-        
-        self.save_button = Button(self.master, text="Save Image", command=self.save_image)
-        self.save_button.pack(side=LEFT)
+        self.control_frame = Frame(self.master)
+        self.control_frame.pack(side=BOTTOM, pady=10)
 
-        self.color_button = Button(self.master, text="Choose Node Color", command=self.choose_color)
+        self.save_button = Button(self.control_frame, text="Save Image", command=self.save_image)
+        self.save_button.pack(side=LEFT, padx=10)
+
+        self.color_button = Button(self.control_frame, text="Choose Node Color", command=self.choose_color)
         self.color_button.pack(side=LEFT)
 
     def create_node(self, event):
@@ -73,7 +77,8 @@ class MindMap:
                 self.canvas.delete(node.text_id)
                 self.nodes.remove(node)
                 break
-
+        else:
+            messagebox.showinfo("No Node Found", "No node found at this location.")
 
     def save_image(self):
         x = self.master.winfo_rootx() + self.canvas.winfo_x()
@@ -88,7 +93,6 @@ class MindMap:
             messagebox.showerror("Error", "Invalid file extension. Please use .jpg, .png, or .bmp")
             return
         ImageGrab.grab().crop((x, y, x1, y1)).save(img_path)
-
 
     def choose_color(self):
         # Open color chooser dialog
