@@ -29,3 +29,5 @@ We warmly welcome contributions! Feel free to open an issue or submit a pull req
 This project is licensed under the terms of the MIT License.
 
 Enjoy
+
+feel free to contribute
